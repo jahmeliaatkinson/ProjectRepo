@@ -1,11 +1,19 @@
 package com.tcs.Employee.Model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.data.domain.Page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +34,18 @@ public class Department {
 	private int organizationId;
 	@Column(name = "dept_name")
 	private String name;
-//	private List<Employee> employees;
+	//private List<Employee> employees;
 	
+
+	
+	
+	@OneToMany(mappedBy = "department" , fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+	private Set<Employee> employees = new HashSet<>();
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="org_id")
+	Organization organization;
 	
 	
 }
